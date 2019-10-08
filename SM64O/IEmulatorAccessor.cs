@@ -3,10 +3,10 @@ namespace SM64O
     public interface IEmulatorAccessor
     {
         bool Attached { get; }
-        int BaseAddress { get; }
+        uint BaseAddress { get; }
         int MainModuleAddress { get; }
         string WindowName { get; }
-        void Open(string processName, int step = 1024);
+        void Open(string processName, uint step = 1024);
         int WriteMemory(int offset, byte[] buffer, int bufferLength);
         int ReadMemory(int offset, byte[] buffer, int bufferLength);
 

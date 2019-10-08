@@ -12,17 +12,23 @@ namespace SM64O
         [DllImport("kernel32.dll")]
         public static extern bool ReadProcessMemory(int hProcess, int lpBaseAddress, byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesRead);
 
+        [DllImport("kernel32.dll")]
+        public static extern bool ReadProcessMemory(int hProcess, uint lpBaseAddress, byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesRead);
+
         [DllImport("kernel32.dll", SetLastError = true)]
         static extern bool WriteProcessMemory(int hProcess, int lpBaseAddress, byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesWritten);
 
+        [DllImport("kernel32.dll", SetLastError = true)]
+        static extern bool WriteProcessMemory(int hProcess, uint lpBaseAddress, byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesWritten);
+
         const int PROCESS_WM_READ = 0x0010;
 
-        private int baseAddress;
+        private uint baseAddress;
         private IntPtr processHandle;
         private Process process;
         private int mainModuleAdd;
 
-        public int BaseAddress
+        public uint BaseAddress
         {
             get { return baseAddress; }
         }
@@ -47,7 +53,7 @@ namespace SM64O
             }
         }
 
-        public void Open(string processName, int step = 1024)
+        public void Open(string processName, uint step = 1024)
         {
             process = Process.GetProcessesByName(processName)[0];
 
@@ -62,15 +68,19 @@ namespace SM64O
 
         public int WriteMemory(int offset, byte[] buffer, int bufferLength)
         {
+            if (offset < 0)
+                throw new ArgumentOutOfRangeException();
             int bytesWritten = 0;
-            WriteProcessMemory((int)processHandle, baseAddress + offset, buffer, bufferLength, ref bytesWritten);
+            WriteProcessMemory((int)processHandle, baseAddress + (uint)offset, buffer, bufferLength, ref bytesWritten);
             return bytesWritten;
         }
 
         public int ReadMemory(int offset, byte[] buffer, int bufferLength)
         {
+            if (offset < 0)
+                throw new ArgumentOutOfRangeException();
             int bytesRead = 0;
-            ReadProcessMemory((int)processHandle, baseAddress + offset, buffer, bufferLength, ref bytesRead);
+            ReadProcessMemory((int)processHandle, baseAddress + (uint)offset, buffer, bufferLength, ref bytesRead);
             return bytesRead;
         }
 

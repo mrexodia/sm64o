@@ -16,20 +16,28 @@ namespace SM64O
     {
         [DllImport("kernel32", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern int OpenProcess(int dwDesiredAccess, int bInheritHandle, int dwProcessId);
-        [DllImport("kernel32", EntryPoint = "WriteProcessMemory", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
 
+        [DllImport("kernel32", EntryPoint = "WriteProcessMemory", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern int WriteProcessMemory1(int hProcess, int lpBaseAddress, ref int lpBuffer, int nSize, ref int lpNumberOfBytesWritten);
+
         [DllImport("kernel32", EntryPoint = "WriteProcessMemory", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern float WriteProcessMemory2(int hProcess, int lpBaseAddress, ref float lpBuffer, int nSize, ref int lpNumberOfBytesWritten);
+
         [DllImport("kernel32", EntryPoint = "WriteProcessMemory", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern long WriteProcessMemory3(int hProcess, int lpBaseAddress, ref long lpBuffer, int nSize, ref int lpNumberOfBytesWritten);
-        [DllImport("kernel32", EntryPoint = "ReadProcessMemory", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
 
+        [DllImport("kernel32", EntryPoint = "ReadProcessMemory", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern int ReadProcessMemory1(int hProcess, int lpBaseAddress, ref int lpBuffer, int nSize, ref int lpNumberOfBytesRead);
+
+        [DllImport("kernel32", EntryPoint = "ReadProcessMemory", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern int ReadProcessMemory1(int hProcess, uint lpBaseAddress, ref int lpBuffer, int nSize, ref int lpNumberOfBytesRead);
+
         [DllImport("kernel32", EntryPoint = "ReadProcessMemory", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern float ReadProcessMemory2(int hProcess, int lpBaseAddress, ref float lpBuffer, int nSize, ref int lpNumberOfBytesRead);
+
         [DllImport("kernel32", EntryPoint = "ReadProcessMemory", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern long ReadProcessMemory3(int hProcess, int lpBaseAddress, ref long lpBuffer, int nSize, ref int lpNumberOfBytesRead);
+
         [DllImport("kernel32", EntryPoint = "ReadProcessMemory", CharSet = CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern byte[] ReadProcessMemory4(int hProcess, int lpBaseAddress, byte[] lpBuffer, int iSize, ref int lpNumberOfBytesRead);
 
@@ -354,7 +362,7 @@ namespace SM64O
             return vBuffer;
         }
 
-        public static int GetBaseAddress(string ProcessName, int scanStep = 0x1000, int nsize = 4)
+        public static uint GetBaseAddress(string ProcessName, uint scanStep = 0x1000, int nsize = 4)
         {
             if (ProcessName.EndsWith(".exe"))
             {
@@ -374,9 +382,9 @@ namespace SM64O
             }
 
             int vBuffer = 0;
-            int startPoint = 0x00000000;
+            uint startPoint = 0x00000000;
             
-            for (int x = startPoint; x <= 0x72D00000; x += scanStep)
+            for (uint x = startPoint; x <= 0xFFFE0000; x += scanStep)
             {
                 //Label1.Text = "Currently processing address: " & x
 
