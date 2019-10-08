@@ -664,7 +664,7 @@ namespace SM64O
                 connection.SendPacket(PacketType.RoundtripPing, buffer);
             }
         }
-        
+
         public void SetPing(int ping)
         {
             pingLabel.Text = string.Format("Ping: {0}ms", ping);

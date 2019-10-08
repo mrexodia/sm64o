@@ -14,7 +14,7 @@ namespace SM64O
         public byte[] PlayerData;
 
         public Client()
-        {}
+        { }
 
         public Client(WebSocketConnection conn)
         {
@@ -25,14 +25,15 @@ namespace SM64O
         {
             return c.Connection;
         }
-        
+
         public void SendPacket(PacketType type, byte[] data)
         {
             byte[] buffer = new byte[data.Length + 1];
-            buffer[0] = (byte) type;
+            buffer[0] = (byte)type;
             Array.Copy(data, 0, buffer, 1, data.Length);
 
-            try{
+            try
+            {
                 Connection.Context.WebSocket.Send(buffer);
             }
             catch
@@ -59,11 +60,11 @@ namespace SM64O
         private static string PrintBytes(byte[] byteArray)
         {
             var sb = new StringBuilder("new byte[] { ");
-            for(var i = 0; i < byteArray.Length; i++)
+            for (var i = 0; i < byteArray.Length; i++)
             {
                 var b = byteArray[i];
                 sb.Append(b);
-                if (i < byteArray.Length -1)
+                if (i < byteArray.Length - 1)
                 {
                     sb.Append(", ");
                 }

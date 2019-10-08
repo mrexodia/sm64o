@@ -20,7 +20,7 @@ namespace SM64O
         private WebSocket _ws;
         private IEmulatorAccessor _memory;
 
-        public ServerConnection (string address, string port, IEmulatorAccessor memory, Form1 gui)
+        public ServerConnection(string address, string port, IEmulatorAccessor memory, Form1 gui)
         {
             _ws = new WebSocket("ws://" + address + ":" + port);
             _gui = gui;
@@ -74,12 +74,12 @@ namespace SM64O
             _ws.Connect();
         }
 
-        private void OnOpen ()
+        private void OnOpen()
         {
 
         }
-        
-        private void onMessage (MessageEventArgs e)
+
+        private void onMessage(MessageEventArgs e)
         {
             byte[] data = e.RawData;
             if (data.Length == 0) return;
@@ -90,8 +90,8 @@ namespace SM64O
             switch (type)
             {
                 case PacketType.Handshake:
-                    _memory.WriteMemory(0x365FFC, new byte[1]{ 1 }, 1); // let client think that he is host
-                    _memory.WriteMemory(0x367703, new byte[1]{ 1 }, 1); // let client think that he has player ID 1
+                    _memory.WriteMemory(0x365FFC, new byte[1] { 1 }, 1); // let client think that he is host
+                    _memory.WriteMemory(0x367703, new byte[1] { 1 }, 1); // let client think that he has player ID 1
                     PlayerID = payload[0];
                     _gui.AddChatMessage("[SERVER]", "Your player ID is: " + PlayerID);
                     break;
@@ -134,7 +134,8 @@ namespace SM64O
                     _memory.WriteMemory(0x367700 + 0x100 * j, playerData, 0x18);
                     j++;
                 }
-                for (; j < 24; j++) {
+                for (; j < 24; j++)
+                {
                     _memory.WriteMemory(0x367700 + 0x100 * j, EMPTY, 0x18);
                 }
             }
@@ -163,7 +164,7 @@ namespace SM64O
                 _memory.WriteMemory(0x367800, payload, 0x18);
             }
         }
-        
+
         public void SetMessage(string msg)
         {
             byte[] strBuf = Encoding.ASCII.GetBytes(msg.Where(isPrintable).ToArray());
@@ -295,11 +296,11 @@ namespace SM64O
         private static string PrintBytes(byte[] byteArray)
         {
             var sb = new StringBuilder("new byte[] { ");
-            for(var i = 0; i < byteArray.Length; i++)
+            for (var i = 0; i < byteArray.Length; i++)
             {
                 var b = byteArray[i];
                 sb.Append(b);
-                if (i < byteArray.Length -1)
+                if (i < byteArray.Length - 1)
                 {
                     sb.Append(", ");
                 }

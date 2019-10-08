@@ -20,7 +20,7 @@ namespace SM64O
             {
                 var ser = new XmlSerializer(typeof(Settings));
 
-                Settings set = (Settings) ser.Deserialize(file);
+                Settings set = (Settings)ser.Deserialize(file);
                 return set;
             }
         }
@@ -38,7 +38,7 @@ namespace SM64O
                     file.SetLength(file.Position);
                 }
             }
-            catch(IOException)
+            catch (IOException)
             { } // Swallow IO exceptions
         }
     }

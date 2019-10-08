@@ -383,7 +383,7 @@ namespace SM64O
 
             int vBuffer = 0;
             uint startPoint = 0x00000000;
-            
+
             for (uint x = startPoint; x <= 0xFFFE0000; x += scanStep)
             {
                 //Label1.Text = "Currently processing address: " & x

@@ -30,7 +30,7 @@ namespace SM64O
         {
             if (!string.IsNullOrEmpty(_cachedIp)) return _cachedIp;
             if (!UPnPAvailable) return null;
-            
+
             INatDevice dev = Devices[0];
 
             string external = null;
@@ -79,7 +79,7 @@ namespace SM64O
                 if (mapping.PrivatePort == mapping.PublicPort && mapping.PublicPort == port)
                     Devices[0].DeletePortMap(mapping);
             }
-            
+
             return true;
         }
 
@@ -132,8 +132,8 @@ namespace SM64O
         {
             Devices.Add(deviceEventArgs.Device);
 
-            if (Devices.Count == 1) {} // TODO this didn't want to compile for me
-                // Available?.Invoke(this, EventArgs.Empty);
+            if (Devices.Count == 1) { } // TODO this didn't want to compile for me
+                                        // Available?.Invoke(this, EventArgs.Empty);
         }
     }
 }

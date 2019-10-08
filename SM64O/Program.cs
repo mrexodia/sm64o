@@ -36,9 +36,9 @@ namespace SM64O
         {
             // DO NOT swallow the exception
             // Instead log it and display it to the user
-            Exception e = (Exception) args.ExceptionObject;
+            Exception e = (Exception)args.ExceptionObject;
 
-            
+
             LogException(e);
         }
 

@@ -7,7 +7,8 @@ using System.IO.Compression;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 
-namespace SM64O {
+namespace SM64O
+{
     public class WebSocketConnection : WebSocketBehavior
     {
         //private static List<WebSocketConnection> _ws = new List<WebSocketConnection>();
@@ -19,7 +20,7 @@ namespace SM64O {
 
         public WebSocketConnection()
         {
-            if (_index > 24) 
+            if (_index > 24)
             {
                 // Server is full
                 //Send("server is full");
@@ -33,20 +34,20 @@ namespace SM64O {
 
             //try
             //{
-                // TODO bans
-                /* if (_bands.Contains(e.Connection.EndPoint.ToString().Split(':')[0]))
-                {
-                    sendChatTo("banned", e.Connection);
-                    e.Connection.Close();
-                    return;
-                } */
-                _client = new Client(this);
-                _client.Id = (byte)(_id + 1);
+            // TODO bans
+            /* if (_bands.Contains(e.Connection.EndPoint.ToString().Split(':')[0]))
+            {
+                sendChatTo("banned", e.Connection);
+                e.Connection.Close();
+                return;
+            } */
+            _client = new Client(this);
+            _client.Id = (byte)(_id + 1);
 
             //}
             //finally
             //{
-                //Form1.Form.labelPlayersOnline.Text = "Players Online: " + (pos+1) + "/24";
+            //Form1.Form.labelPlayersOnline.Text = "Players Online: " + (pos+1) + "/24";
             //}
         }
 
@@ -80,10 +81,11 @@ namespace SM64O {
 
         protected override void OnClose(CloseEventArgs e)
         {
-            try {
+            try
+            {
                 Form1.Form.listBoxPlayers.Items.Remove(_client);
             }
-            catch 
+            catch
             {
                 // connection might not yet be open, ignore
             }
@@ -103,7 +105,7 @@ namespace SM64O {
             _connections[_id]._id = _id;
             try
             {
-                _connections[_id]._client.SendPacket(PacketType.Handshake, new byte[]{ id });
+                _connections[_id]._client.SendPacket(PacketType.Handshake, new byte[] { id });
             }
             catch
             {
@@ -121,8 +123,9 @@ namespace SM64O {
         {
             _client.Major = payload[0];
             _client.Minor = payload[1];
-            if ((int)_client.Major != Form1.COMPAT_MAJOR_VERSION || (int)_client.Minor != Form1.COMPAT_MINOR_VERSION) {
-                byte[] res = new byte[]{ _client.Major, _client.Minor };
+            if ((int)_client.Major != Form1.COMPAT_MAJOR_VERSION || (int)_client.Minor != Form1.COMPAT_MINOR_VERSION)
+            {
+                byte[] res = new byte[] { _client.Major, _client.Minor };
                 _client.SendPacket(PacketType.WrongVersion, res);
                 return;
             }
@@ -131,9 +134,9 @@ namespace SM64O {
             byte[] usernameBytes = new byte[usernameLength];
             Array.Copy(payload, 4, usernameBytes, 0, usernameLength);
             _client.Username = Encoding.ASCII.GetString(usernameBytes);
-            
-            _client.SendPacket(PacketType.Handshake, new byte[]{ _client.Id });
-            _client.SendPacket(PacketType.GameMode, new byte[]{ 0 });
+
+            _client.SendPacket(PacketType.Handshake, new byte[] { _client.Id });
+            _client.SendPacket(PacketType.GameMode, new byte[] { 0 });
 
             Form1.Form.listBoxPlayers.Items.Add(_client);
 
@@ -156,7 +159,7 @@ namespace SM64O {
                 {
                     _client.Connection.Context.WebSocket.Send(payload);
                 }
-                catch{}
+                catch { }
             }
         }
 
@@ -220,11 +223,11 @@ namespace SM64O {
         private static string PrintBytes(byte[] byteArray)
         {
             var sb = new StringBuilder("new byte[] { ");
-            for(var i = 0; i < byteArray.Length; i++)
+            for (var i = 0; i < byteArray.Length; i++)
             {
                 var b = byteArray[i];
                 sb.Append(b);
-                if (i < byteArray.Length -1)
+                if (i < byteArray.Length - 1)
                 {
                     sb.Append(", ");
                 }
