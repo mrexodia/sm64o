@@ -58,6 +58,7 @@ namespace SM64O
             process = Process.GetProcessesByName(processName)[0];
 
             baseAddress = ReadWritingMemory.GetBaseAddress(processName, step, 4);
+            System.Windows.Forms.MessageBox.Show($"0x{baseAddress:X}");
 
             processHandle = OpenProcess(0x1F0FFF, true, process.Id);
 

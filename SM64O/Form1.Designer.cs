@@ -171,15 +171,15 @@
             // 
             // textBoxChat
             // 
-            this.textBoxChat.Multiline = true;
-            this.textBoxChat.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxChat.ReadOnly = true;
+            this.textBoxChat.Font = new System.Drawing.Font("Arial", 12F);
             this.textBoxChat.Location = new System.Drawing.Point(13, 384);
+            this.textBoxChat.Multiline = true;
             this.textBoxChat.Name = "textBoxChat";
+            this.textBoxChat.ReadOnly = true;
+            this.textBoxChat.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBoxChat.Size = new System.Drawing.Size(595, 300);
             this.textBoxChat.TabIndex = 13;
             this.textBoxChat.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseDoubleClick);
-            this.textBoxChat.Font = new System.Drawing.Font("Arial", 12);
             // 
             // comboBoxEmulator
             // 
@@ -187,8 +187,7 @@
             this.comboBoxEmulator.FormattingEnabled = true;
             this.comboBoxEmulator.Items.AddRange(new object[] {
             "Project64",
-            "Nemu64",
-            "Mupen64"});
+            "Project64_p2"});
             this.comboBoxEmulator.Location = new System.Drawing.Point(71, 152);
             this.comboBoxEmulator.Name = "comboBoxEmulator";
             this.comboBoxEmulator.Size = new System.Drawing.Size(210, 21);
@@ -244,7 +243,7 @@
             // 
             this.numUpDownClients.Location = new System.Drawing.Point(119, 15);
             this.numUpDownClients.Maximum = new decimal(new int[] {
-            64,
+            24,
             0,
             0,
             0});
@@ -256,7 +255,6 @@
             this.numUpDownClients.Name = "numUpDownClients";
             this.numUpDownClients.Size = new System.Drawing.Size(163, 20);
             this.numUpDownClients.TabIndex = 31;
-            this.numUpDownClients.Maximum = 24;
             this.numUpDownClients.Value = new decimal(new int[] {
             24,
             0,
@@ -394,13 +392,7 @@
             this.gamemodeBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.gamemodeBox.FormattingEnabled = true;
             this.gamemodeBox.Items.AddRange(new object[] {
-            "Normal Mode"/*, // can we please just comment them out to prevent confusion?
-            "3rd Person Shooter",
-            "No Interactions",
-            "Prop Hunt",
-            "Boss Rush",
-            "Tag",
-            "Hide & Seek"*/});
+            "Normal Mode"});
             this.gamemodeBox.Location = new System.Drawing.Point(119, 40);
             this.gamemodeBox.Name = "gamemodeBox";
             this.gamemodeBox.Size = new System.Drawing.Size(163, 21);
@@ -432,7 +424,7 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.pingLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 387);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 688);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(618, 22);
             this.statusStrip1.SizingGrip = false;
@@ -468,7 +460,7 @@
             this.backgroundPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.backgroundPanel.Location = new System.Drawing.Point(0, 0);
             this.backgroundPanel.Name = "backgroundPanel";
-            this.backgroundPanel.Size = new System.Drawing.Size(618, 409);
+            this.backgroundPanel.Size = new System.Drawing.Size(618, 710);
             this.backgroundPanel.TabIndex = 43;
             // 
             // labelChat
@@ -543,7 +535,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "Form1";
-            this.Text = "Net64 Tool v" + Form1.MAJOR_VERSION + "." + Form1.MINOR_VERSION;
+            this.Text = "Net64 Tool v";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);

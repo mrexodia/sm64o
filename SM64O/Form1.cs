@@ -27,7 +27,7 @@ namespace SM64O
         public const int MINOR_VERSION = 0;
         public const int COMPAT_MAJOR_VERSION = 0;
         public const int COMPAT_MINOR_VERSION = 4;
-        private const int UPDATE_RATE = 24;
+        private const int UPDATE_RATE = 10;
         public const int MAX_CHAT_LENGTH = 24;
         public const int HANDSHAKE_LENGTH = MAX_CHAT_LENGTH + 5;
 
@@ -132,6 +132,7 @@ namespace SM64O
             switch (comboBoxEmulator.Text)
             {
                 case "Project64":
+                case "Project64_p2":
                     // Super Mario 64 (u) - Project 64 v2.3.3
                     string windowName = _memory.WindowName;
 
@@ -143,30 +144,6 @@ namespace SM64O
                             romname = windowName.Substring(0, i).Trim();
                             break;
                         }
-                    }
-                    break;
-                case "Mupen64":
-                    string wndname = _memory.WindowName;
-
-                    for (int i = wndname.Length - 1; i >= 0; i--)
-                    {
-                        if (wndname[i] == '-')
-                        {
-                            romname = wndname.Substring(0, i).Trim();
-                            break;
-                        }
-                    }
-                    break;
-                case "Nemu64":
-                    _memory.ReadMemoryAbs(_memory.MainModuleAddress + 0x3C8A10C, buffer, buffer.Length);
-
-                    romname = Program.GetASCIIString(buffer, 0, Array.IndexOf(buffer, (byte)0));
-                    break;
-                case "Mupen64+":
-                    {
-                        _memory.ReadMemoryAbs(_memory.GetModuleBaseAddress("mupen64plus.dll") + 0x1751CA0, buffer, buffer.Length);
-
-                        romname = Program.GetASCIIString(buffer, 0, Array.IndexOf(buffer, (byte)0));
                     }
                     break;
             }
@@ -187,16 +164,8 @@ namespace SM64O
                 switch (comboBoxEmulator.Text)
                 {
                     case "Project64":
-                        memoryRead = Task.Run(() => _memory.Open("Project64"));
-                        break;
-                    case "Nemu64":
-                        memoryRead = Task.Run(() => _memory.Open("Nemu64"));
-                        break;
-                    case "Mupen64":
-                        memoryRead = Task.Run(() => _memory.Open("Mupen64"));
-                        break;
-                    case "Mupen64+":
-                        memoryRead = Task.Run(() => _memory.Open("mupen64plus-ui-console", 32));
+                    case "Project64_p2":
+                        memoryRead = Task.Run(() => _memory.Open(comboBoxEmulator.Text));
                         break;
                     default:
                         die("No emulator was chosen. This should never happen. Yell at Guad if you can see this!");
