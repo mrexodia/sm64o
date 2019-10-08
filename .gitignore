@@ -3,11 +3,8 @@
 .vscode/
 
 # don't commit binaries (they change too much)
-SM64O/bin/
-SM64O/obj/
-
-# EXCEPT this file - might be important!!
-!SM64O/bin/Release/Release.zip
+bin/
+obj/
 
 # Xamarin Studio/MonoDevelop droppings
 *.csproj.user
@@ -21,4 +18,3 @@ SM64O/obj/
 *.swx
 *.swo
 *.swj
-
