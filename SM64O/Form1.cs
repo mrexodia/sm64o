@@ -254,8 +254,8 @@ namespace SM64O
                 return;
             }
 
-            timer1_Tick();
             loadPatches();
+            timer1_Tick();
 
             checkBoxServer.Enabled = false;
             buttonJoin.Enabled = false;
@@ -284,8 +284,16 @@ namespace SM64O
             backgroundPanel.Enabled = true;
         }
 
+        class Patch
+        {
+            public int Offset;
+            public byte[] Buffer;
+        };
+
         private void loadPatches()
         {
+            var patches = new List<Patch>();
+
             string[] fileEntries = Directory.GetFiles(RESSOURCES_DIR);
 
             foreach (var file in fileEntries)
@@ -296,7 +304,11 @@ namespace SM64O
                 if (int.TryParse(fname, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out offset))
                 {
                     byte[] buffer = File.ReadAllBytes(file);
-                    _memory.WriteMemory(offset, buffer, buffer.Length);
+                    patches.Add(new Patch
+                    {
+                        Offset = offset,
+                        Buffer = buffer
+                    });
                 }
                 else if (fname.Contains('.'))
                 {
@@ -326,12 +338,17 @@ namespace SM64O
                         offset = int.Parse(address, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
 
                         byte[] buffer = File.ReadAllBytes(file);
-                        _memory.WriteMemory(offset, buffer, buffer.Length);
+                        patches.Add(new Patch
+                        {
+                            Offset = offset,
+                            Buffer = buffer
+                        });
                     }
                 }
-
-
             }
+
+            foreach (var patch in patches)
+                _memory.WriteMemory(patch.Offset, patch.Buffer, patch.Buffer.Length);
         }
 
         private void timer1_Tick()
