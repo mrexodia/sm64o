@@ -83,7 +83,7 @@ namespace SM64O
         {
             try
             {
-                Form1.Form.listBoxPlayers.Items.Remove(_client);
+                Form1.Form.listBoxPlayers.InvokeIfRequired(lb => lb.Items.Remove(_client));
             }
             catch
             {
@@ -138,7 +138,7 @@ namespace SM64O
             _client.SendPacket(PacketType.Handshake, new byte[] { _client.Id });
             _client.SendPacket(PacketType.GameMode, new byte[] { 0 });
 
-            Form1.Form.listBoxPlayers.Items.Add(_client);
+            Form1.Form.listBoxPlayers.InvokeIfRequired(lb => lb.Items.Add(_client));
 
             string msg = string.Format("{0} joined", _client.Username);
             if (msg.Length > Form1.MAX_CHAT_LENGTH)
@@ -157,7 +157,9 @@ namespace SM64O
             {
                 try
                 {
-                    _client.Connection.Context.WebSocket.Send(payload);
+                    var c = _connections[i];
+                    if(c != null)
+                        c.Context.WebSocket.Send(payload);
                 }
                 catch { }
             }

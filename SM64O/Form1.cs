@@ -32,8 +32,8 @@ namespace SM64O
         public const int HANDSHAKE_LENGTH = MAX_CHAT_LENGTH + 5;
 
         public static readonly string BASE_DIR = AppDomain.CurrentDomain.BaseDirectory;
-        public static readonly string PATCHES_DIR = BASE_DIR + "/Patches/";
-        public static readonly string RESSOURCES_DIR = BASE_DIR + "/Ressources/";
+        public static readonly string PATCHES_DIR = Path.Combine(BASE_DIR, "Patches");
+        public static readonly string RESSOURCES_DIR = Path.Combine(BASE_DIR, "Ressources");
         //your bannde
         public const string BANDS_FILE = "bans.txt";
 
@@ -70,7 +70,7 @@ namespace SM64O
             foreach (var file in fileEntries)
             {
                 string fileName = Path.GetFileName(file); //file is the full path of the file, fileName is only the file's name (with extension)
-                string ressourcesParallel = RESSOURCES_DIR + fileName;
+                string ressourcesParallel = Path.Combine(RESSOURCES_DIR, fileName);
                 byte[] buffer = File.ReadAllBytes(file);
 
                 //this version allows overwriting existing files in Ressources. Not uncommenting just in case this method is unfavored.
@@ -161,11 +161,12 @@ namespace SM64O
             {
 
                 Task memoryRead = null;
-                switch (comboBoxEmulator.Text)
+                var emu = comboBoxEmulator.Text;
+                switch (emu)
                 {
                     case "Project64":
                     case "Project64_p2":
-                        memoryRead = Task.Run(() => _memory.Open(comboBoxEmulator.Text));
+                        memoryRead = Task.Run(() => _memory.Open(emu));
                         break;
                     default:
                         die("No emulator was chosen. This should never happen. Yell at Guad if you can see this!");
@@ -285,7 +286,7 @@ namespace SM64O
 
         private void loadPatches()
         {
-            string[] fileEntries = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory + "/Ressources/");
+            string[] fileEntries = Directory.GetFiles(RESSOURCES_DIR);
 
             foreach (var file in fileEntries)
             {
@@ -670,10 +671,12 @@ namespace SM64O
             pingLabel.Text = string.Format("Ping: {0}ms", ping);
         }
 
+        public delegate void AppendDelegate(string s);
+
         public void AddChatMessage(string sender, string message)
         {
             string timeStamp = DateTime.Now.ToString("HH:mm:ss");
-            textBoxChat.AppendText(string.Format(Environment.NewLine + "[{0}] {1}: {2}", timeStamp, sender, message));
+            textBoxChat.InvokeIfRequired(tb => tb.AppendText(string.Format(Environment.NewLine + "[{0}] {1}: {2}", timeStamp, sender, message)));
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
